@@ -1,11 +1,11 @@
 
 
-type Note = { 
+type NoteData = { 
     id: number,
     title: string,
     text: string
 }
-type JsonData = Note[] 
+type JsonData = NoteData[] 
 
 
-export type {JsonData}
+export type {JsonData,NoteData}
