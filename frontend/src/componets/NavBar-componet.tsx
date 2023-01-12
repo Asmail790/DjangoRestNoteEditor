@@ -5,47 +5,31 @@ import {
   Button,
   Avatar,
   Text,
-  NavLink
+  NavLink,
+  Box
 } from "@mantine/core";
+import { AcountStatus } from "./acount-status";
 
-const SearchBar: React.FC = (props: any) => {
-  return (
-    <>
-      <TextInput placeholder="Search" />
-      <Button>Search</Button>
-    </>
-  );
-};
+
 
 const Navbar: React.FC = (props) => {
   return (
-    <MantineNavbar height={120} p="xs">
-      <Group position="left">
-        <User />
-      </Group>
-      <Group position="right">
-        <SearchBar />
-      </Group>
+<MantineNavbar width={{ sm: 300 }} height={700}>
+      <MantineNavbar.Section>Logo</MantineNavbar.Section>
+
+      <MantineNavbar.Section>
+        <Box>
+        <TextInput placeholder="Search" />
+        <AcountStatus></AcountStatus>
+        <NavLink label="settings"/>
+        <NavLink label="favourite"/>
+        <NavLink label="trash can"/>
+        </Box>
+      </MantineNavbar.Section>
     </MantineNavbar>
   );
 };
 
-const User: React.FC = (props) => {
-  return (
-    <Group>
-      <Avatar radius="xl" color="cyan"></Avatar>
 
-      <div style={{ flex: 1 }}>
-        <Text size="sm" weight={500}>
-          username
-        </Text>
-
-        <Text color="dimmed" size="xs">
-          email
-        </Text>
-      </div>
-    </Group>
-  );
-};
 
 export { Navbar };
