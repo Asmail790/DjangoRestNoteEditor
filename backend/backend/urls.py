@@ -18,6 +18,6 @@ from rest_framework.response import Response
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path("register", obtain_auth_token),
+    path("login", obtain_auth_token),
     path("hello", views.hello_world)
 ]

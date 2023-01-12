@@ -18,12 +18,15 @@ from rest_framework.renderers  import JSONRenderer,TemplateHTMLRenderer
 from rest_framework.decorators import renderer_classes, throttle_classes,schema
 
 from rest_framework.throttling import UserRateThrottle
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 class OncePerDayUserThrottle(UserRateThrottle):
     rate = '1/min'
 
-@api_view(['GET','POST'])
+@api_view(['GET'])
 @renderer_classes([JSONRenderer])
+@permission_classes([IsAuthenticated])
 #@throttle_classes([OncePerDayUserThrottle])
 def hello_world(request):
     return Response({"message": "Hello, world!"})

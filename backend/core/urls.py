@@ -1,4 +1,4 @@
-"""note_editor_project URL Configuration
+"""core URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -16,7 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework.schemas import get_schema_view
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('backend.urls'))
+    path('', include('backend.urls')),
+    path('openapi', get_schema_view(
+        title="Note Editor rest api",
+        description="API for all things",
+        version="1.0.0"
+    ), name='openapi-schema')
 ]
