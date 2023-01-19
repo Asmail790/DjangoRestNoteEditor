@@ -48,18 +48,18 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',  
     ]
 }
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000',) #T
+CORS_ALLOWED_ORIGINS = ('http://localhost:3000', "http://localhost") #T
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #T
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware' #T
 ]
 
 ROOT_URLCONF = 'core.urls'
