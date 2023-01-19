@@ -1,11 +1,25 @@
 
 
+
+/**
+ * Repsenting a note.
+ */
 type NoteData = { 
-    id: number,
     title: string,
     text: string
 }
-type JsonData = NoteData[] 
 
 
-export type {JsonData,NoteData}
+/**
+ * Repsenting a note with a ID.
+ */
+type NoteDataWithID = NoteData & {
+    id:number
+}
+
+
+type NoteDataWithIDList = NoteDataWithID[] 
+type NoteDataList = NoteData[] 
+
+
+export type {NoteDataWithIDList,NoteDataList,NoteDataWithID,NoteData}
