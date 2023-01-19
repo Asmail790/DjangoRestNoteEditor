@@ -2,7 +2,6 @@ import { Box, Button, Container, MantineProvider, PasswordInput, TextInput } fro
 import { isEmail, isNotEmpty, useForm } from "@mantine/form";
 import { FormEventHandler } from "react";
 import { Route, RouteProps } from "react-router-dom";
-import { NoteGrid } from "../componets/notegrid-componet";
 
 
 interface FormValues {

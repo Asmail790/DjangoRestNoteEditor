@@ -1,17 +1,11 @@
-import { Table, Grid } from "@mantine/core";
+import { Card, Image, Text, Button, Group, Grid } from "@mantine/core";
 import { PropsWithChildren } from "react";
-import { JsonData, NoteData } from "../shared/types";
+import { NoteDataWithID } from "../../../shared/types";
 
-import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
+type Link = { label: string; link: string };
+type Links = { links: Link[] };
 
-type NoteGridProp = PropsWithChildren<{ notes: JsonData }>;
-type NoteCardProp = PropsWithChildren<NoteData>;
-
-const NoteGrid: React.FC<NoteGridProp> = (props) => {
-  const rows = props.notes.map((note) => <NoteCard {...note} ></NoteCard>);
-
-  return <Grid>{rows}</Grid>;
-};
+type NoteCardProp = PropsWithChildren<NoteDataWithID & Links>;
 
 const NoteCard: React.FC<NoteCardProp> = (props) => {
   return (
@@ -31,16 +25,15 @@ const NoteCard: React.FC<NoteCardProp> = (props) => {
           {props.text}
         </Text>
         <Group>
-          <Button variant="light" color="blue" mt="md" radius="md">
-            Edit
-          </Button>
-          <Button variant="light" color="red" mt="md" radius="md">
-            Delete
-          </Button>
+          {props.links.map(({ label, link }) => (
+            <Button variant="light" color="blue" mt="md" radius="md">
+              {label}
+            </Button>
+          ))}
         </Group>
       </Card>
     </Grid.Col>
   );
 };
 
-export { NoteGrid };
+export { NoteCard };

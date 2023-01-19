@@ -1,10 +1,6 @@
 import {
-  Group,
   Navbar as MantineNavbar,
   TextInput,
-  Button,
-  Avatar,
-  Text,
   NavLink,
   Box
 } from "@mantine/core";
