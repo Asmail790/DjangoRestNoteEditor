@@ -1,7 +1,7 @@
 import { Card, Image, Text, Button, Group, Grid } from "@mantine/core";
 import { PropsWithChildren } from "react";
 import { NoteDataWithID } from "../../../shared/types";
-import { exampleImage } from "../../../shared/temporary replacement ";
+import { exampleImage } from "../../../shared/temporary-replacement";
 
 type Link = { label: string; link: string };
 type Links = { links: Link[] };
