@@ -7,6 +7,7 @@ import { NotePageRoute } from "../pages/notes/page";
 
 
 const router = createBrowserRouter(
+    
     createRoutesFromElements(
       <Route path="/">
         {NotePageRoute}

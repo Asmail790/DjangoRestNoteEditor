@@ -1,5 +1,5 @@
 import { Container } from "@mantine/core";
-import { PathRouteProps, Route, RouteObject, RouteProps, LayoutRouteProps, IndexRouteProps } from "react-router-dom";
+import { Route } from "react-router-dom";
 import React from "react";
 
 import { Navbar } from "../../shared/componets/NavBar-componet";
@@ -14,12 +14,12 @@ const NotesPage:React.FC = () => {
 
 return (<DefaultLayout navbar={<Navbar/>}>
      <Container>
-            <NoteGrid notes={[]}></NoteGrid>
+            <NoteGrid ></NoteGrid>
           </Container>
     </DefaultLayout>)
 }
 
 
-const NotePageRoute = <Route path="notes"  element= {<NotesPage/>}></Route>
+const NotePageRoute =  <Route path="notes"  element= {<NotesPage/>}></Route>
 
 export  {NotePageRoute}
