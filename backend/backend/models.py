@@ -9,6 +9,7 @@ from django.conf import settings
 
 
 class Note(models.Model):
-    title = models.TextField()
-    
-    text = models.TextField()
+    title = models.TextField(blank=True)
+    starMarked = models.BooleanField(default=False)
+    text = models.TextField(blank=True)
+    rawText = models.TextField(blank=True)

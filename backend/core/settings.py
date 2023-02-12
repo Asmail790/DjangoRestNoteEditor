@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.apps.BackendConfig',
-    'corsheaders', #T
+    'corsheaders',  # T
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -45,16 +45,18 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  
-    ]
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.PageNumberPaginationWithCount',
+    'PAGE_SIZE': 12
 }
-CORS_ALLOWED_ORIGINS = ('http://localhost:3000', "http://localhost") #T
+CORS_ALLOWED_ORIGINS = ('http://localhost:3000', "http://localhost")  # T
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware', #T
+    'corsheaders.middleware.CorsMiddleware',  # T
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -64,7 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
-AUTH_USER_MODEL ="auth.User" # default
+AUTH_USER_MODEL = "auth.User"  # default
 
 TEMPLATES = [
     {
@@ -83,8 +85,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
-
 
 
 # Database

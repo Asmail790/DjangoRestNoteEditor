@@ -1,17 +1,34 @@
-import { NoteData,NoteDataWithID,NoteDataWithIDList } from "../shared/types";
+import { NoteData,NoteDataUpdate,NoteDataWithID,NoteDataWithIDList } from "../shared/types";
 
 import { isNoteDataWithID } from "../shared/type-guards";
+import { useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
 
 const BASE_URL =  "http://127.0.0.1:8000"
 
+type getNoteListResponse = {
+  total_pages:number
+  count:number,
+  next:string| null 
+  previous:string| null,
+  results:NoteDataWithIDList
+}
 
-const getNoteList = async () => {
-  const response = await fetch(`${BASE_URL}/note/`);
-  const noteDataList: NoteDataWithIDList = await response.json();
-  return {response,noteDataList};
+const getNoteList = async (searchTerm:string,page:number) => {
+  const query = searchTerm === "" ? `${BASE_URL}/note/?page=${page}`:`${BASE_URL}/note/?page=${page}&search=${searchTerm}`
+  const response = await fetch(query);
+  const  {
+    count,
+    next,
+    total_pages,
+    previous,
+    results:noteDataList
+  }:getNoteListResponse = await response.json();
+  return {response,noteDataList,total_pages,count,next,previous,};
 };
 
+ 
 
 const getNote = async (id:number) => {
     const response = await fetch(`${BASE_URL}/note/${id}`)
@@ -20,6 +37,7 @@ const getNote = async (id:number) => {
 }
 
 const saveNote = async (noteData: NoteData) => {
+  console.log(noteData)
   const requestInit = {
     method: "POST",
     headers: {
@@ -29,9 +47,9 @@ const saveNote = async (noteData: NoteData) => {
   }
 
   const response = await fetch(`${BASE_URL}/note/`, requestInit);
-
   return response;
 };
+
 
 
 const deleteNote = async (noteOrNoteID: NoteDataWithID | number) => {
@@ -52,6 +70,17 @@ const deleteNote = async (noteOrNoteID: NoteDataWithID | number) => {
   };
 
 
+const updateNotePartially = async (note: NoteDataUpdate ) => {
+  const requestInit = {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(note)
+  }
+  const response = await fetch(`${BASE_URL}/note/${note.id}/`,requestInit );
+  return response
+}
 
 const updateNote = async (note:NoteDataWithID) => {
   const requestInit = {
@@ -65,5 +94,4 @@ const updateNote = async (note:NoteDataWithID) => {
   const response = await fetch(`${BASE_URL}/note/${note.id}/`,requestInit)
   return response
 }
-
-export {getNoteList, saveNote, getNote, deleteNote,updateNote};
+export {getNoteList, saveNote, getNote, deleteNote,updateNote,updateNotePartially};

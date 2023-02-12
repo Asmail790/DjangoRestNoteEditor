@@ -1,20 +1,15 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 
-import { NotePageRoute } from "../pages/notes/page";
+import { NotesPageRoute } from "../pages/notes/page";
+import { NotePageRoute } from "../pages/note/page";
 
-
-
-
-
+const routesObjects = [NotesPageRoute, NotePageRoute];
 const router = createBrowserRouter(
-    
-    createRoutesFromElements(
-      <Route path="/">
-        {NotePageRoute}
-      </Route>
-    )
-  )
+  createRoutesFromElements(<Route path="/">{routesObjects}</Route>)
+);
 
-
-
-export {router}
+export { router };

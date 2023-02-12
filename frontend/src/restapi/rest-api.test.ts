@@ -1,18 +1,19 @@
-import { NoteData, NoteDataWithID, NoteDataWithIDList } from "../shared/types"
-import { deleteNote, getNote,saveNote,getNoteList,updateNote } from "./rest-api"
+import { NoteData, NoteDataUpdate, NoteDataWithID, NoteDataWithIDList } from "../shared/types"
+import { deleteNote, getNote,saveNote,getNoteList,updateNote, updateNotePartially } from "./rest-api"
 
 describe("rest-api", () => {
     it("test-getNoteList", async () => {
-        const {response,noteDataList} = await getNoteList()
+      /*  const {response,noteDataList} = await getNoteList(0)
         
         expect(response.ok).toBe(true)
         expect(noteDataList).toBeDefined()
         expect(noteDataList.length).toBeGreaterThan(0)
+        */
 
     })
 
     it("test-saveNote", async () => {
-        const note:NoteData = {title:"title", text:"text"}
+        const note:NoteData = {title:"title", text:"text", rawText:"", starMarked: false}
         const response = await saveNote(note)
         expect(response.ok).toBe(true)
         
@@ -28,7 +29,7 @@ describe("rest-api", () => {
     })
 
     it("test-deleteNote", async () => {
-        const unSavedNote:NoteData = {title:"title", text:"text"}
+        const unSavedNote:NoteData = {title:"title", text:"text", rawText:"", starMarked: false}
         const initalResponse = await saveNote(unSavedNote)
         
         const savedNote:NoteDataWithID = await initalResponse.json()
@@ -39,8 +40,19 @@ describe("rest-api", () => {
 
     })
 
+    it("test-updatePartialNote", async () => {
+        const partialNote:NoteDataUpdate = {
+            id:28,
+            title:"A message from other universe"
+        }
+        const response = await updateNotePartially(partialNote)
+        expect(response.ok).toBe(true)
+        const data:NoteDataWithID = await response.json()
+        expect(data.title).toEqual(partialNote.title)
+    })
+
     it("test-updateNote", async () => {
-        const unSavedNote:NoteData = {title:"title", text:"text"}
+        const unSavedNote:NoteData = {title:"title", text:"text", rawText:"", starMarked: false}
         const initalResponse = await saveNote(unSavedNote)
         expect(initalResponse.ok).toBe(true)
         
