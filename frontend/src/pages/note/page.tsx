@@ -1,5 +1,5 @@
 import { Button, Group, Stack, TextInput } from "@mantine/core";
-import { Route, useNavigate, useParams } from "react-router-dom";
+import { Link, Route, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect } from "react";
 import { Navbar } from "../../shared/componets/NavBar-componet";
 import { DefaultLayout } from "../../shared/componets/default-layout";
@@ -25,19 +25,19 @@ const NotePage: React.FC = (props) => {
   const deleteMutation = useMutation(
     async (noteID: number) => deleteNote(noteID),
     {
-      onSuccess: (e) => navigate("/notes"),
+      onSuccess: (e) => navigate(-1),
     }
   );
 
   const onConfirm = () => deleteMutation.mutate(Number(id));
 
-  /*const openModal = () => 5;
-  openConfirmModal({
-    title: "Confirm deletion of note",
-    children: <p>Are you sure?</p>,
-    labels: { confirm: "Confirm", cancel: "Cancel" },
-    onConfirm: onConfirm,
-  });*/
+  const openModal = () =>
+    openConfirmModal({
+      title: "Confirm deletion of note",
+      children: <p>Are you sure?</p>,
+      labels: { confirm: "Confirm", cancel: "Cancel" },
+      onConfirm: onConfirm,
+    });
 
   const updateMutation = useMutation(async (note: NoteDataUpdate) =>
     updateNotePartially(note)
@@ -59,9 +59,8 @@ const NotePage: React.FC = (props) => {
       <>
         <DefaultLayout navbar={<Navbar />}>
           <Group position="right">
-            {/*
-            <Button onClick={openModal}>Delete Note</Button>;
-            */}
+            <Button onClick={openModal}>Delete Note</Button>
+            <Button onClick={() => navigate(-1)}>Back</Button>
           </Group>
           <Stack h="100%" justify="center">
             <TextInput
@@ -97,4 +96,4 @@ const NotePage: React.FC = (props) => {
 
 const NotePageRoute = <Route path="note/:id" element={<NotePage />}></Route>;
 
-export { NotePageRoute };
+export { NotePageRoute, NotePage };

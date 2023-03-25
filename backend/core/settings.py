@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 from pathlib import Path
+from dotenv import dotenv_values
+from mailjet_rest import Client
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,13 +42,14 @@ INSTALLED_APPS = [
     'backend.apps.BackendConfig',
     'corsheaders',  # T
     'rest_framework',
+    'rest_framework_simplejwt',
     'rest_framework.authtoken',
 ]
 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'core.pagination.PageNumberPaginationWithCount',
     'PAGE_SIZE': 12
@@ -138,3 +142,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Account Authentication
+SIMPLE_JWT = {
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken", "rest_framework_simplejwt.tokens.AccessToken.RefreshToken", "backend.views.RefreshTokenCustimized"),
+}
+
+
+# EMAIL
+Mailjet_CONFIG = dotenv_values(Path(__file__).parent / ".env")
+MAILJET_API_KEY = Mailjet_CONFIG['API_KEY']
+MAILJET_API_SECRET = Mailjet_CONFIG['API_SECRET']
+MAILJET = Client(auth=(MAILJET_API_KEY, MAILJET_API_SECRET), version='v3.1')
+
+CRONJOBS = []

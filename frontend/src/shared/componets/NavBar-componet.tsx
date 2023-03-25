@@ -2,30 +2,37 @@ import {
   Navbar as MantineNavbar,
   TextInput,
   NavLink,
-  Box
+  Box,
+  Paper,
 } from "@mantine/core";
+import { Link } from "react-router-dom";
 import { AcountStatus } from "./acount-status";
-
-
 
 const Navbar: React.FC = (props) => {
   return (
-<MantineNavbar width={{ sm: 300 }} height={700}>
-      <MantineNavbar.Section>Logo</MantineNavbar.Section>
+    <Paper>
+      <MantineNavbar width={{ sm: 300 }} height={"100vh"}>
+        <MantineNavbar.Section>
+          <Box>
+            <AcountStatus></AcountStatus>
+            <Link style={{ textDecoration: "none" }} to="/settings">
+              <NavLink label="settings" />
+            </Link>
+            <Link style={{ textDecoration: "none" }} to="/favourite">
+              <NavLink label="favourite" />
+            </Link>
+            <Link style={{ textDecoration: "none" }} to="/notes">
+              <NavLink label="notes" />
+            </Link>
 
-      <MantineNavbar.Section>
-        <Box>
-        <TextInput placeholder="Search" />
-        <AcountStatus></AcountStatus>
-        <NavLink label="settings"/>
-        <NavLink label="favourite"/>
-        <NavLink label="trash can"/>
-        </Box>
-      </MantineNavbar.Section>
-    </MantineNavbar>
+            <Link style={{ textDecoration: "none" }} to="/">
+              <NavLink label="home" />
+            </Link>
+          </Box>
+        </MantineNavbar.Section>
+      </MantineNavbar>
+    </Paper>
   );
 };
-
-
 
 export { Navbar };

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html style="height: 100vh; margin: 0px; padding: 0px">
+  <head>
+    <title>Account registered</title>
+  </head>
+
+  <!-- 
+    TODO 
+    Remove hardcoded link.
+    Check openAI swagger and oepani in DRF.
+    create use css class instead of attribute style.
+    -->
+  <body style="height: 100vh; margin: 0px; padding: 0px">
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          justify-content: center;
+        "
+      >
+        <h1>Your account {{username}} is registered.</h1>
+
+        <center>
+          <p>
+            <!-- remove hardcoding check openAI swagger and read django schema section. -->
+            You can return to home page through this
+            <a href="http://localhost:3000/">link</a>.
+          </p>
+        </center>
+      </div>
+    </div>
+  </body>
+</html>

@@ -20,9 +20,8 @@ describe("rest-api", () => {
     })
 
     it("test-getNote", async () => {
-        const {response,note} = await getNote(42)
+        const {note} = await getNote(42)
 
-        expect(response.ok).toBe(true)
         expect(note).toBeDefined()
         expect(note).toHaveProperty("id")
         expect(note.id).toBe(42)

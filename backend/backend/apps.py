@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.conf import settings
 
 
 class BackendConfig(AppConfig):
@@ -7,5 +8,8 @@ class BackendConfig(AppConfig):
 
     def ready(self) -> None:
         super().ready()
+        CRONJOBS = [
+            ('*/1 * * * *', 'backend.cron.remove_unactive_accounts')
+        ]
 
-        from . import signals
+        settings.CRONJOBS += CRONJOBS

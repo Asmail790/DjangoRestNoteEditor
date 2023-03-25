@@ -6,93 +6,59 @@ import {
   Group,
   Grid,
   ActionIcon,
+  Stack,
+  Center,
 } from "@mantine/core";
 import { PropsWithChildren, useState } from "react";
 import { NoteData, NoteDataWithID } from "../../../shared/types";
 import { exampleImage } from "../../../shared/temporary-replacement";
-import { Link as Actions, Path } from "react-router-dom";
+import { Link as Actions, Path, useNavigate } from "react-router-dom";
 import { Node } from "@tiptap/core";
 import { RichTextViewer } from "./rich-text-viewer";
 import { openConfirmModal } from "@mantine/modals";
 import { IconStar } from "@tabler/icons";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { updateNotePartially } from "../../../restapi/rest-api";
+import { useSetFavourite } from "../hooks/set-note-favourite-hook";
+import { useRemove } from "../hooks/remove-note-hook";
+import { useDeleteConfirmationModal } from "./delete-confirmation-modal";
+import { useEditNote } from "../hooks/edite-note-hook";
+import { StarButton } from "./star-button";
+import { useLocalStorage } from "@mantine/hooks";
+import { useColSpan } from "../../settings/hooks/card-col-span-hook";
 
 type NoteCardProp = {
   note: NoteDataWithID;
-  onDelete: (id: number) => void;
-  onEdit: (id: number) => void;
 };
 
 const NoteCard: React.FC<NoteCardProp> = (props) => {
-  const [starMark, setStarMark] = useState(props.note.starMarked);
+  const deleteConfirmationModal = useDeleteConfirmationModal(props.note.id);
+  const editNote = useEditNote();
 
-  const openModal = () =>
-    openConfirmModal({
-      title: "Please confirm your action",
-      children: (
-        <Text size="sm">
-          This note will be deleted permently. Please click one of these buttons
-          to proceed.
-        </Text>
-      ),
-      labels: { confirm: "Delete", cancel: "Cancel" },
-      onConfirm: () => props.onDelete(props.note.id),
-    });
-
-  const queryClient = useQueryClient();
-
-  const updateStarMark = useMutation(
-    async (note: NoteDataWithID) => {
-      const { id } = note;
-      const response = updateNotePartially({ id, starMarked: !starMark });
-      return response;
-    },
-    {
-      onSuccess: async (response) => {
-        const note: NoteDataWithID = await response.json();
-        setStarMark((prev) => note.starMarked);
-      },
-    }
-  );
-
-  const StartButton = () => {
-    const variant = starMark ? "filled" : "transparent";
-    return (
-      <ActionIcon
-        variant={variant}
-        color="yellow"
-        onClick={() => {
-          updateStarMark.mutate(props.note);
-        }}
-      >
-        <IconStar size={24} />
-      </ActionIcon>
-    );
-  };
+  const { ColumnSpanIndex, cardColSpan } = useColSpan();
 
   return (
-    <Grid.Col sm={12} md={4}>
+    <Grid.Col
+      sm={cardColSpan[ColumnSpanIndex]}
+      md={cardColSpan[ColumnSpanIndex]}
+    >
       <Card shadow="sm" p="lg" radius="md" withBorder>
-        <Card.Section>
-          <Image
-            src={exampleImage.src}
-            height={exampleImage.height}
-            alt={exampleImage.alt}
-          />
-        </Card.Section>
-
-        <Text weight={500}> {props.note.title}</Text>
-        <RichTextViewer jsonContent={JSON.parse(props.note.text)} />
-        <Group position="apart">
-          <Group>
+        <Stack>
+          <Group position="right">
+            <StarButton note={props.note} />
+          </Group>
+          <Center>
+            <Text weight={500}> {props.note.title}</Text>
+          </Center>
+          <RichTextViewer jsonContent={JSON.parse(props.note.text)} />
+          <Group position="apart">
             <Button
               variant="light"
               key={0}
               color="blue"
               mt="md"
               radius="md"
-              onClick={openModal}
+              onClick={deleteConfirmationModal}
             >
               Delete
             </Button>
@@ -103,16 +69,16 @@ const NoteCard: React.FC<NoteCardProp> = (props) => {
               color="blue"
               mt="md"
               radius="md"
-              onClick={() => props.onEdit(props.note.id)}
+              onClick={() => editNote(props.note.id)}
             >
               Edit
             </Button>
-            <StartButton />
           </Group>
-        </Group>
+        </Stack>
       </Card>
     </Grid.Col>
   );
 };
 
 export { NoteCard };
+export type { NoteCardProp };
