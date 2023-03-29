@@ -4,8 +4,8 @@
 <h1  style="margin-top:100px;"> Dark And light Theme </h1>
 <h3> The editor comes with a dark and light theme. </h3>
 <div style="display:flex; flex-direction:row; flex-wrap: wrap; justify-content:center;gap:40px;" width="100%"> 
-<img alt="dark mode" src="./readme-images/dark.png" width=1100 />
-<img alt="dark mode" src="./readme-images/light.png" width=1100/>
+<img alt="dark mode" src="./readme-images/dark.png" width=500 />
+<img alt="dark mode" src="./readme-images/light.png" width=500/>
 </div>
 
 <h1 style="margin-top:100px;"> Stylized notes </h1>
@@ -38,6 +38,10 @@
 
 <h2 style="margin-top:50px;"> Clear registiontion process </h2>
 <h3> The registiontion process is divided in 3 simple steps: fill account credentials, confirm credentials and verify email.</h3>
+
+<div align="center" style="margin:30px;" width="100%"> 
+<img alt="register" src="./readme-images/register-process.png"/>
+</div>
 <div align="center" width="100%"> 
 <img alt="register" src="./readme-images/register.gif" width=1024/>
 </div>
