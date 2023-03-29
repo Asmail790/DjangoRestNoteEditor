@@ -23,6 +23,7 @@ import { isLoggedIn, isLoggedOut } from "../shared/hooks/jwt-log-status-hook";
 
 import { Title, Text, Paper, Stack, Space } from "@mantine/core";
 import { LoginPage } from "../pages/login/page";
+import { RegistrationPage } from "../pages/registration/page";
 const routesObjects = [
   NotesPageRoute,
   NotePageRoute,
@@ -66,7 +67,7 @@ const router = createBrowserRouter(
       </Route>
 
       <Route path="login" element={<LoginPage />} />
-      <Route path="register" element={<p>register page</p>} />
+      <Route path="register" element={<RegistrationPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="*" element={<PageNotFound />} />
     </Route>

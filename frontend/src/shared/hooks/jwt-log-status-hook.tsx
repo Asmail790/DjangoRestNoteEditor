@@ -77,12 +77,12 @@ function logOut() {
   removeItemInLocalStorage({ key: refreshTokenKey });
 }
 interface ILogOut {
-  username: string;
+  email: string;
   password: string;
 }
 
 async function logIn(props: ILogOut) {
-  const { username, password } = props;
+  const { email: username, password } = props;
   try {
     const { access, refresh } = await login(username, password);
     const { setAcessToken, setRefreshToken } = acessJWT();

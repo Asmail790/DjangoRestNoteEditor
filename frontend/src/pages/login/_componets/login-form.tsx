@@ -23,7 +23,7 @@ import { ILogOut, logIn } from "../../../shared/hooks/jwt-log-status-hook";
 import { useMutation } from "react-query";
 
 interface FormValues {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -32,7 +32,7 @@ const LogInForm: React.FC = (props) => {
 
   const form = useForm<FormValues>({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validate: {
@@ -50,13 +50,23 @@ const LogInForm: React.FC = (props) => {
   );
 
   const onSubmit = (values: FormValues) => {
-    mutate({ username: values.username, password: values.password });
+    mutate(
+      { email: values.email, password: values.password },
+      {
+        onError(error, variables, context) {
+          console.log(variables);
+        },
+        onSuccess(data, variables, context) {
+          console.log(variables);
+        },
+      }
+    );
   };
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Box w="20vw" mx="md">
-        <TextInput {...form.getInputProps("username")} label="Username" />
+        <TextInput {...form.getInputProps("email")} label="Email" />
         <PasswordInput {...form.getInputProps("password")} label="Password" />
 
         <Group position="apart">

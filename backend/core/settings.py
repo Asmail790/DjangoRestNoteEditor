@@ -70,7 +70,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
-AUTH_USER_MODEL = "auth.User"  # default
+AUTH_USER_MODEL = "backend.EmailUniqueUser"  # default
 
 TEMPLATES = [
     {
@@ -146,7 +146,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Account Authentication
 SIMPLE_JWT = {
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken", "rest_framework_simplejwt.tokens.AccessToken.RefreshToken", "backend.views.RefreshTokenCustimized"),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
 

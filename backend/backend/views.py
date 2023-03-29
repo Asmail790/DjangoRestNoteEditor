@@ -13,16 +13,17 @@ from rest_framework.request import Request
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser
 
-
+from django.contrib.auth.models import AbstractUser
 from .models import Note, EmailAuthenticationToken
 from .serializers import StarMarkedNoteSerializer, NoteSerializer, RegisterSerializer
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user
-from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework.decorators import renderer_classes
 from rest_framework import status
+
+from django.contrib.auth import get_user_model
 from datetime import time, datetime
 from .utility import send_message
 from .utility import reverse_with_query_parms
@@ -38,25 +39,34 @@ class NoteView(viewsets.ModelViewSet):
     serializer_class = NoteSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'rawText']
-    queryset = Note.objects.all().order_by('pk')
+
+    def get_queryset(self):
+        user: AbstractUser = self.request.user
+        return Note.objects.filter(owner=user).order_by('pk')
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class FavouriteNotes (mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
     renderer_classes = [JSONRenderer]
     serializer_class = NoteSerializer
-    queryset = Note.objects.filter(starMarked=True).order_by('pk')
+
+    def get_queryset(self):
+        user: AbstractUser = self.request.user
+        return Note.objects.filter(starMarked=True, owner=user).order_by('pk')
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_user_info(request: Request):
     # TODO  get_object_or_404 instead of get?
-    user = User.objects.get(username=request.user.username)
+    user = get_user_model().objects.get(email=request.user.email)
     return Response({"first_name": user.first_name, "last_name": user.last_name, "email": user.email, "username": user.username})
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def create_account(request: Request):
     io.BytesIO()
     data = json_parser.parse(io.BytesIO(request.body))
@@ -64,24 +74,21 @@ def create_account(request: Request):
     serializer = RegisterSerializer(data=data)
 
     if serializer.is_valid():
+        serializer.save()
 
-        user = User.objects.create_user(**serializer.validated_data)
-        user.is_active = False
-        user.save()
-
-        return Response(status=status.HTTP_200_OK)
+        return Response(data=serializer.validated_data, status=status.HTTP_200_OK)
 
     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def authenticate_user_email(request: Request):
     email = request.query_params["email"]
 
-    if not User.objects.filter(email=email).exists():
+    if not get_user_model().objects.filter(email=email).exists():
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.get(email=email)
+    user = get_user_model().objects.get(email=email)
     email_authentication_token = EmailAuthenticationToken.objects.create(
         user=user)
     email_authentication_token.save()
@@ -119,10 +126,10 @@ def activate_user(request: Request):
         for token in EmailAuthenticationToken.objects.filter(user=user):
             token.delete()
 
-        context = {"username": user.username}
+        context = {"username": user.username, "email": user.email}
         return Response(context, template_name="backend/account_activated.html")
 
-    if not emailAuthenticationToken.isExpired():
+    if not emailAuthenticationToken.is_expired():
         user = emailAuthenticationToken.user
         user.is_active = True
         user.save()
@@ -130,7 +137,7 @@ def activate_user(request: Request):
         for token in EmailAuthenticationToken.objects.filter(user=user):
             token.delete()
 
-        context = {"username": user.username}
+        context = {"username": user.username, "email": user.email}
         return Response(context, template_name="backend/account_activated.html")
 
     return Response(template_name="backend/expired_link.html")
