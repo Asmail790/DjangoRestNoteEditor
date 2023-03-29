@@ -30,12 +30,12 @@ export const validPassword = validStr;
 export function useCreateForm() {
   const form = useForm<FormValues>({
     initialValues: {
-      username: "asmail",
-      lastName: "asmail",
-      firstName: "abdu",
-      email: "asmail799z@gmail.com",
-      password: "123456",
-      confirmPassword: "123456",
+      username: "",
+      lastName: "",
+      firstName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
 
     validate: {

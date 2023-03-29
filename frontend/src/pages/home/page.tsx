@@ -76,8 +76,7 @@ const HomePage: FC<PropsWithChildren> = (props) => {
         Take care of your eye !
       </Title>
       <Text color="white" align="left">
-        The app comes with a light and dark theme. Take care of your eye - use
-        dark theme when dark !
+        The app comes with a light and dark theme.
       </Text>
     </>,
     <>
@@ -133,6 +132,7 @@ const HomePage: FC<PropsWithChildren> = (props) => {
           >
             <Stack align="center" justify="center" w="100%" h="80%">
               <Title
+                w="100%"
                 size="50px"
                 align="center"
                 variant="gradient"

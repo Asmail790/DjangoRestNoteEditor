@@ -32,6 +32,8 @@
 - Write the requiments on password and username/firstname/lastname.
 - Ability to change username,password,first and last name in settings. 
 - Ablity to export notes to e-mail (?).
+- Use css clip-path and create a SVG image with the text "DRF+R note editor app". Use the SVG image to cut out some of the background so that graident animation will visable inside.
+- Create a simple UI componet repensiting one slide instead of a array of JSX elements.
 
 
 ## Bug
